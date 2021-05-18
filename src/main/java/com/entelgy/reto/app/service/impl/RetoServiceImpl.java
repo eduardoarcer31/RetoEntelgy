@@ -42,7 +42,8 @@ public class RetoServiceImpl implements RetoService{
     		HttpEntity<Root> request = new HttpEntity<Root>(null, headers);
     		ResponseEntity<Root> result = restTemplate.exchange(uri, HttpMethod.GET, request, Root.class);
 
-        	List<String> resp = result.getBody().getData().stream().map(x->(String.valueOf(x.getId())+"|"+x.getLast_name()+"|"+x.getEmail())).collect(Collectors.toList());
+        	List<String> resp = result.getBody().getData()
+        			.stream().map(x->(String.valueOf(x.getId())+"|"+x.getLast_name()+"|"+x.getEmail())).collect(Collectors.toList());
         	reto.setData(resp);
     		return reto;
     	}catch(Exception e) {
