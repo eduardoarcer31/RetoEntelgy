@@ -34,14 +34,13 @@ public class RetoServiceImpl implements RetoService{
     	try {
         	URI uri = new URI(url);
 
-        	HttpHeaders requestHeaders = new HttpHeaders();
-    		requestHeaders.setContentType(MediaType.APPLICATION_JSON);
-    		requestHeaders.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-    		requestHeaders.add("user-agent",
-    				"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36");
+    		HttpHeaders headers = new HttpHeaders();
+    		headers.setContentType(MediaType.APPLICATION_JSON);
+    		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+    		headers.add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36");
 
-    		HttpEntity<Root> requestEntity = new HttpEntity<Root>(null, requestHeaders);
-    		ResponseEntity<Root> result = restTemplate.exchange(uri, HttpMethod.GET, requestEntity, Root.class);
+    		HttpEntity<Root> request = new HttpEntity<Root>(null, headers);
+    		ResponseEntity<Root> result = restTemplate.exchange(uri, HttpMethod.GET, request, Root.class);
 
         	List<String> resp = result.getBody().getData().stream().map(x->(String.valueOf(x.getId())+"|"+x.getLast_name()+"|"+x.getEmail())).collect(Collectors.toList());
         	reto.setData(resp);

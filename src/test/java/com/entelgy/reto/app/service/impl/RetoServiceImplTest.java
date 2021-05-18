@@ -50,23 +50,22 @@ public class RetoServiceImplTest extends MockHttpSession{
 		
 		ReflectionTestUtils.setField(retoService, "url", "https://reqres.in/api/users");
 
-		HttpHeaders requestHeaders = new HttpHeaders();
-		requestHeaders.setContentType(MediaType.APPLICATION_JSON);
-		requestHeaders.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-		requestHeaders.add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36");
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+		headers.add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36");
 
-		HttpEntity<Root> requestEntity = new HttpEntity<Root>(null, requestHeaders);
+		HttpEntity<Root> request = new HttpEntity<Root>(null, headers);
 		
 		 Root root = new Root();
 		 root.setData(dataenduro());
-	        //define the entity you want the exchange to return
-	        ResponseEntity<Root> myEntity = new ResponseEntity<Root>(root, HttpStatus.ACCEPTED);
+	        ResponseEntity<Root> response = new ResponseEntity<Root>(root, HttpStatus.ACCEPTED);
 	        Mockito.when(restTemplate.exchange(
 	            eq(new URI("https://reqres.in/api/users")),
 	            eq(HttpMethod.GET),
-	            eq(requestEntity),
+	            eq(request),
 	            eq(Root.class))
-	        ).thenReturn(myEntity);
+	        ).thenReturn(response);
 
 	        Reto res = retoService.refactorizar();
 	        assertTrue(res.getData() != null);
